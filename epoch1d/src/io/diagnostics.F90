@@ -224,6 +224,7 @@ CONTAINS
     INTEGER, SAVE :: nstep_prev = -1
     LOGICAL :: convert, force, any_written, restart_id, print_arrays
     LOGICAL, SAVE :: first_call = .TRUE.
+    INTEGER :: file_unit  ! 显式声明 file_unit 为整数类型
     TYPE(particle_species), POINTER :: species
     TYPE(subset), POINTER :: sub
     CHARACTER(LEN=15) :: timestring, eta_timestring
@@ -318,6 +319,19 @@ CONTAINS
     ELSE
       ALLOCATE(dump_point_grid(1))
     END IF
+    
+    ! !IF (rank == 0) THEN
+    !   !PRINT *, "time =", time, "step =", step, "ex(laserpos) =", ey(cpml_x_min_laser_idx)
+    !   IF (step==0) THEN
+    !     OPEN(unit=dul, FILE=TRIM(data_dir) //"/ey_laserpos.txt", STATUS="REPLACE")
+    !     WRITE(dul, '(I12, E20.12, E20.12)') step, time, ey(cpml_x_min_laser_idx)
+    !     CLOSE(dul)
+    !   ELSE
+    !     OPEN(unit=dul, FILE=TRIM(data_dir) //"/ey_laserpos.txt", STATUS="OLD", POSITION="APPEND")
+    !     WRITE(dul, '(I12, E20.12, E20.12)') step, time, ey(cpml_x_min_laser_idx)
+    !     CLOSE(dul)
+    !   END IF
+    ! !END IF
 
     DO iprefix = 1,SIZE(file_prefixes)
       CALL io_test(iprefix, step, print_arrays, force, prefix_first_call)

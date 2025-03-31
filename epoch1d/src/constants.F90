@@ -42,6 +42,7 @@ MODULE constants
   INTEGER, PARAMETER :: du = 40
   INTEGER, PARAMETER :: lu = 41
   INTEGER, PARAMETER :: duc = 42
+  INTEGER, PARAMETER :: dul = 43
   INTEGER, PARAMETER :: stat_unit = 20
 #ifdef NO_IO
   INTEGER, PARAMETER :: io_units(1) = (/ stdout /)
