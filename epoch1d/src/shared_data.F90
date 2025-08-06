@@ -522,6 +522,10 @@ MODULE shared_data
   REAL(num) :: dir_grid_min(c_ndims), dir_grid_max(c_ndims)
   REAL(num) :: dir_min_local(c_ndims), dir_max_local(c_ndims)
 
+  LOGICAL :: damp = .FALSE.
+  INTEGER :: step_damp=1000
+  REAL(num) :: length_damp, damp_center, damp_width
+
   LOGICAL :: ic_from_restart = .FALSE.
   LOGICAL :: need_random_state
   LOGICAL :: use_exact_restart, use_exact_restart_set

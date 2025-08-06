@@ -230,6 +230,21 @@ CONTAINS
     ELSE IF (str_cmp(element, 'y_min') &
         .OR. str_cmp(element, 'y_start')) THEN
 
+    ELSE IF (str_cmp(element, 'damp')) THEN
+      damp = as_logical_print(value, element, errcode)
+
+    ELSE IF (str_cmp(element, 'length_damp')) THEN
+      length_damp = as_real_print(value, element, errcode)
+
+    ELSE IF (str_cmp(element, 'damp_center')) THEN
+      damp_center = as_real_print(value, element, errcode)
+
+    ELSE IF (str_cmp(element, 'damp_width')) THEN
+      damp_width = as_real_print(value, element, errcode)    
+
+    ELSE IF (str_cmp(element, 'step_damp')) THEN
+      step_damp = as_integer_print(value, element, errcode)
+
     ELSE IF (str_cmp(element, 'y_max') &
         .OR. str_cmp(element, 'y_end')) THEN
 

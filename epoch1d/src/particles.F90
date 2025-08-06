@@ -49,7 +49,7 @@ CONTAINS
     REAL(num) :: jxh, jyh, jzh
 
     ! Properties of the current particle. Copy out of particle arrays for speed
-    REAL(num) :: part_x
+    REAL(num) :: part_x, tmp_x
     REAL(num) :: part_ux, part_uy, part_uz
     REAL(num) :: part_q, part_mc, ipart_mc, part_weight, part_m
 #ifdef HC_PUSH
@@ -262,6 +262,22 @@ CONTAINS
         part_ux = current%part_p(1) * ipart_mc
         part_uy = current%part_p(2) * ipart_mc
         part_uz = current%part_p(3) * ipart_mc
+
+        IF (damp .and. MOD(step, step_damp) == 0) THEN
+          IF (current%part_pos < length_damp) THEN
+            tmp_x = current%part_pos/length_x
+            part_ux = -part_ux * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
+            part_uy = -part_uy * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
+            part_uy = -part_uy * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
+          END IF
+
+          IF (length_x-current%part_pos < length_damp) THEN
+            tmp_x = 1-current%part_pos/length_x
+            part_ux = -part_ux * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
+            part_uy = -part_uy * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
+            part_uy = -part_uy * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
+          END IF
+        END IF
 
         ! Calculate v(t) from p(t)
         ! See PSC manual page (25-27)
