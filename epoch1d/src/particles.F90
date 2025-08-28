@@ -268,14 +268,14 @@ CONTAINS
             tmp_x = current%part_pos/length_x
             part_ux = -part_ux * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
             part_uy = -part_uy * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
-            part_uy = -part_uy * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
+            part_uz = -part_uz * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
           END IF
 
           IF (length_x-current%part_pos < length_damp) THEN
             tmp_x = 1-current%part_pos/length_x
             part_ux = -part_ux * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
             part_uy = -part_uy * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
-            part_uy = -part_uy * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
+            part_uz = -part_uz * 0.5 * (1 + tanh((tmp_x - damp_center) / damp_width))
           END IF
         END IF
 
