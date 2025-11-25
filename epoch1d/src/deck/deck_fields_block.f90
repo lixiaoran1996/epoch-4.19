@@ -68,6 +68,16 @@ CONTAINS
     IF (deck_state == c_ds_first) RETURN
     IF (element == blank .OR. value == blank) RETURN
 
+    IF (str_cmp(element, 'use_custom_E')) THEN
+      use_custom_E = as_logical_print(value, element, errcode)
+      RETURN
+    END IF
+
+    IF (str_cmp(element, 'E_location')) THEN
+      E_location = TRIM(ADJUSTL(value))
+      RETURN
+    END IF
+
     IF (str_cmp(element, 'offset')) THEN
       offset = as_long_integer_print(value, element, errcode)
       RETURN

@@ -282,23 +282,27 @@ CONTAINS
 
     bx(laserpos-1) = bx_x_min
 
-    IF (add_laser(n)) THEN
-      current => lasers
-      DO WHILE(ASSOCIATED(current))
-        IF (current%boundary == c_bd_x_min) THEN
-          ! evaluate the temporal evolution of the laser
-          IF (time >= current%t_start .AND. time <= current%t_end) THEN
-            IF (current%use_phase_function) CALL laser_update_phase(current)
-            IF (current%use_profile_function) CALL laser_update_profile(current)
-            t_env = laser_time_profile(current) * current%amp
-            base = t_env * current%profile &
-              * SIN(current%current_integral_phase + current%phase)
-            source1 = source1 + base * COS(current%pol_angle)
-            source2 = source2 + base * SIN(current%pol_angle)
+    IF (use_custom_E) THEN
+      source1 = get_custom_E(time)
+    ELSE
+      IF (add_laser(n)) THEN
+        current => lasers
+        DO WHILE(ASSOCIATED(current))
+          IF (current%boundary == c_bd_x_min) THEN
+            ! evaluate the temporal evolution of the laser
+            IF (time >= current%t_start .AND. time <= current%t_end) THEN
+              IF (current%use_phase_function) CALL laser_update_phase(current)
+              IF (current%use_profile_function) CALL laser_update_profile(current)
+              t_env = laser_time_profile(current) * current%amp
+              base = t_env * current%profile &
+                * SIN(current%current_integral_phase + current%phase)
+              source1 = source1 + base * COS(current%pol_angle)
+              source2 = source2 + base * SIN(current%pol_angle)
+            END IF
           END IF
-        END IF
-        current => current%next
-      END DO
+          current => current%next
+        END DO
+      END IF
     END IF
 
     bz(laserpos-1) = sum * ( 4.0_num * source1 &
